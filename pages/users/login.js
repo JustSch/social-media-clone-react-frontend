@@ -12,7 +12,7 @@ const Login = () => {
 
                             <form action="/api/users/login" method="POST">
                                 <div className="form-group">
-                                    <label for="email" className="form-label mt-4">Email</label>
+                                    <label htmlFor="email" className="form-label mt-4">Email</label>
                                     <input
                                         type="email"
                                         id="email"
@@ -22,7 +22,7 @@ const Login = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label for="password" className="form-label mt-4">Password</label>
+                                    <label htmlFor="password" className="form-label mt-4">Password</label>
                                     <input
                                         type="password"
                                         id="password"
@@ -31,7 +31,7 @@ const Login = () => {
                                         placeholder="Enter Password"
                                     />
                                 </div>
-                                <div class="d-grid gap-2">
+                                <div className="d-grid gap-2">
                                     <button type="submit" className="btn btn-large btn-primary mt-4">Login</button>
                                 </div>
                             </form>
