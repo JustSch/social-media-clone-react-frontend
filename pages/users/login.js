@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Col, Container, Row, Card, Form, FormControl, Button, Alert } from "react-bootstrap";
 
 const Login = () => {
     const [errorMsg, setErrorMsg] = useState('')
+    let router = useRouter();
 
      async function handleSubmit(e){
         e.preventDefault();
@@ -21,7 +23,7 @@ const Login = () => {
             });
 
             if (res.status === 200){
-                setErrorMsg('login successful')//change to redirect with Router.push('/')
+                router.push('/dashboard')
             }
             else if (res.status === 401){
                 setErrorMsg('email or password is incorrect')
