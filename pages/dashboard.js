@@ -1,4 +1,5 @@
 import { useAuthenticator } from "@/hooks/authenticated";
+import { usePosts } from "@/hooks/posts";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -18,14 +19,44 @@ const error_markup = (error_message) => {
     );
 }
 
+const post_markup = (posts) => {
+    return (
+        <div className="mb-3">
+            <Col className="col-md-6 m-auto">
+                {posts.map((post, index) =>
+                (<Card key={index}>
+                    <h4 className="card-header">
+                        <Link href='/#'>
+                            {post.name}
+                        </Link>
+                    </h4>
+                    <div className="card-body">
+                        <h6 className="card-subtitle mb-2 text-muted">
+                            {post.date}
+                        </h6>
+                        <p className="card-text">
+                            {post.content}
+                        </p>
+                    </div>
+                </Card>)
+                )}
+
+            </Col>
+
+        </div>
+    );
+}
+
 const Dashboard = () => {
     const authenticated = useAuthenticator();
     let router = useRouter();
-    useEffect(()=>{
-        if (authenticated === false){
+    const posts = usePosts();
+
+    useEffect(() => {
+        if (authenticated === false) {
             router.push('/');
         }
-    },[authenticated,router])
+    }, [authenticated, router])
     return (
         <Container>
             <div id="dashboard_header">
@@ -51,7 +82,12 @@ const Dashboard = () => {
                     </div>
                 </Card>
             </div>
-            
+            {!posts && <div> {error_markup("There are no Posts! Follow Other Users To See Posts Here.")}</div>}
+            {posts &&
+                <div>
+                    {post_markup(posts)}
+                </div>
+            }
 
 
         </ Container>

@@ -4,10 +4,20 @@ import Link from 'next/link'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { Button, Card, Col, Container, Row } from 'react-bootstrap'
+import { useEffect } from 'react'
+import { useAuthenticator } from '@/hooks/authenticated'
+import { useRouter } from 'next/router'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const authenticated = useAuthenticator();
+  let router = useRouter();
+  useEffect(() => {
+    if(authenticated === true){
+      router.push('/dashboard');
+    }
+  },[authenticated,router]);
   return (
     <>
       <Head>
