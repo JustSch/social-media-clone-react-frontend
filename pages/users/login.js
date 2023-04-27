@@ -52,7 +52,6 @@ const Login = () => {
                                         type="email"
                                         id="email"
                                         name="email"
-                                        className="form-control"
                                         placeholder="Enter Email"
                                     />
                                 </Form.Group>
@@ -62,7 +61,6 @@ const Login = () => {
                                         type="password"
                                         id="password"
                                         name="password"
-                                        className="form-control"
                                         placeholder="Enter Password"
                                     />
                                 </Form.Group>
