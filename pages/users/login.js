@@ -7,25 +7,25 @@ const Login = () => {
     const [errorMsg, setErrorMsg] = useState('')
     let router = useRouter();
 
-     async function handleSubmit(e){
+    async function handleSubmit(e) {
         e.preventDefault();
         if (errorMsg) setErrorMsg('');
         try {
             const formData = new FormData();
-            formData.append("email",e.currentTarget.email.value);
-            formData.append("password",e.currentTarget.password.value);
+            formData.append("email", e.currentTarget.email.value);
+            formData.append("password", e.currentTarget.password.value);
             const data = new URLSearchParams(formData);
-            const res = await fetch('/api/login',{
+            const res = await fetch('/api/login', {
                 method: 'POST',
                 body: data,
                 credentials: 'include'
 
             });
 
-            if (res.status === 200){
+            if (res.status === 200) {
                 router.push('/dashboard')
             }
-            else if (res.status === 401){
+            else if (res.status === 401) {
                 setErrorMsg('email or password is incorrect')
             }
             else {
@@ -33,7 +33,7 @@ const Login = () => {
             }
         }
 
-        catch(error){
+        catch (error) {
             console.log(error.message);
             setErrorMsg(error.message)
         }
@@ -46,7 +46,7 @@ const Login = () => {
                     <Col className="col-md-6 m-auto">
                         <Card className='card-body'>
                             <h1 className="text-center mb-3">Login</h1>
-                            {errorMsg && <Alert className="alert-warning">{errorMsg}</Alert>} 
+                            {errorMsg && <Alert className="alert-warning">{errorMsg}</Alert>}
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group>
                                     <Form.Label htmlFor="email" className="mt-4">Email</Form.Label>

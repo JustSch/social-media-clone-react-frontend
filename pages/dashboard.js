@@ -3,7 +3,7 @@ import { usePosts } from "@/hooks/posts";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
 const error_markup = (error_message) => {
     return (
@@ -46,7 +46,16 @@ const post_markup = (posts) => {
         </div>
     );
 }
-
+const clickHandler = async (e,router) => {
+    e.preventDefault();
+    const res = await fetch('/api/logout'); 
+    if (res.status === 200) {
+        router.push('/')
+    }
+    else if (res.status === 501) {
+        error_markup('there was an error logging out');
+    }
+}
 const Dashboard = () => {
     const authenticated = useAuthenticator();
     let router = useRouter();
@@ -75,9 +84,9 @@ const Dashboard = () => {
                             <Link href='/search'>
                                 Here
                             </Link>
-                            <Link href='/users/logout' className="btn btn-outline-primary float-end">
+                            <Button className="btn-outline float-end" onClick={(e) =>{clickHandler(e,router)}}>
                                 Logout
-                            </Link>
+                            </Button>
                         </h6>
                     </div>
                 </Card>
