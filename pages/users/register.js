@@ -5,12 +5,14 @@ import { Card, Col, Form, FormControl, Row, Container, Button, Alert } from "rea
 
 const Register = () => {
     const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
     let router = useRouter();
 
     async function handleSubmit (e) {
         e.preventDefault();
         let errors=[];
         if (errorMsg) setErrorMsg('');
+        if (successMsg) setSuccessMsg();
         if (!e.currentTarget.name.value ||
             !e.currentTarget.email.value ||
             !e.currentTarget.password.value ||
@@ -30,7 +32,34 @@ const Register = () => {
         }
 
         else {
-            //register api here
+            try {
+                const formData = new FormData();
+                formData.append("name",e.currentTarget.name.value);
+                formData.append("email",e.currentTarget.email.value);
+                formData.append("password",e.currentTarget.password.value);
+                formData.append("password2",e.currentTarget.password2.value);
+                const data = new URLSearchParams(formData);
+                
+                const res = await fetch('/api/register',{
+                    method: 'POST',
+                    body: data,
+                    credentials: 'include'
+                });
+
+                if(res.status === 200) {
+                    setSuccessMsg("Account Has Been Created Successfully")
+                }
+
+                else if (res.status === 401){
+                    setErrorMsg(res.body[0].msg);
+                }
+
+            }
+            catch (error) {
+                console.log(error.message);
+                setErrorMsg(error.message);
+            }
+
         }
         
 
@@ -43,6 +72,7 @@ const Register = () => {
                         <h1 className="text-center mb-3">
                             Register
                         </h1>
+                        {successMsg && <Alert className="alert-success">{successMsg}</Alert>}
                         {errorMsg && <Alert className="alert-warning">{errorMsg}</Alert>}
                         <Form onSubmit={handleSubmit}>
                             <Form.Group>
