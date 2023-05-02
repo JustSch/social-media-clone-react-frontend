@@ -26,7 +26,7 @@ const post_markup = (posts) => {
                 {posts.map((post, index) =>
                 (<Card key={index}>
                     <h4 className="card-header">
-                        <Link href='/#'>
+                        <Link href={`/users/profile/${post.name}`}>
                             {post.name}
                         </Link>
                     </h4>
