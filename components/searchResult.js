@@ -7,7 +7,7 @@ export function createResult(searchJSON) {
                 {
                     searchJSON.map((result, index) => (
                         <p key={index}>
-                            <Link href='#'>
+                            <Link href={`/users/profile/${result.name}`}>
                                 {result.name}
                             </Link>
                         </p>

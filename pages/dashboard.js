@@ -1,5 +1,5 @@
 import { useAuthenticator } from "@/hooks/authenticated";
-import { usePosts } from "@/hooks/posts";
+import { useJSONFetcher } from "@/hooks/JSONFetcher";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -59,7 +59,8 @@ const clickHandler = async (e, router) => {
 const Dashboard = () => {
     const authenticated = useAuthenticator();
     let router = useRouter();
-    const posts = usePosts();
+    const url = '/api/post/postDashboard';
+    const posts = useJSONFetcher(url);
 
     useEffect(() => {
         if (authenticated === false) {

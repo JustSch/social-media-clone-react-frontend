@@ -9,9 +9,6 @@ const UserSearch = () => {
     const [searchVal,setSearchVal] = useState('');
     const [resultJSON,setResultJSON] = useState('');
 
-    //create another react component to create search results
-    //links are created based on username
-
     async function handleClick(e) {
         e.preventDefault();
         if (errorMsg) setErrorMsg('');
