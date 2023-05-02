@@ -46,9 +46,9 @@ const post_markup = (posts) => {
         </div>
     );
 }
-const clickHandler = async (e,router) => {
+const clickHandler = async (e, router) => {
     e.preventDefault();
-    const res = await fetch('/api/logout'); 
+    const res = await fetch('/api/logout');
     if (res.status === 200) {
         router.push('/')
     }
@@ -78,16 +78,17 @@ const Dashboard = () => {
                             <Link href='/PostCreator'>
                                 Create a Post
                             </Link>
-                            <p className="lead mb-3">
-                                Search For A User To Follow
-                            </p>
-                            <Link href='/search'>
-                                Here
-                            </Link>
-                            <Button className="btn-outline float-end" onClick={(e) =>{clickHandler(e,router)}}>
-                                Logout
-                            </Button>
                         </h6>
+                        <h6 className="card-subtitle mb-2 text-muted">
+
+                            <Link href='/userSearch'>
+                                Search For A User To Follow Here
+                            </Link>
+                        </h6>
+                        <Button className="btn-outline float-end" onClick={(e) => { clickHandler(e, router) }}>
+                            Logout
+                        </Button>
+
                     </div>
                 </Card>
             </div>
