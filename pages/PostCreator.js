@@ -29,9 +29,9 @@ const PostCreator = () => {
 
             try {
                 const formData = new FormData();
-                formData.append("message",e.currentTarget.message.value);
+                formData.append("message", e.currentTarget.message.value);
                 const data = new URLSearchParams(formData);
-                
+
                 const res = await fetch('/api/createPost', {
                     method: 'POST',
                     body: data,
@@ -64,22 +64,24 @@ const PostCreator = () => {
                         </h1>
                         {errorMsg && <Alert className="alert-warning">{errorMsg}</Alert>}
                         {successMsg && <Alert className="alert-success">{successMsg}</Alert>}
-                        <Form onSubmit={handleSubmit} autoComplete="off">
-                            <Form.Group>
-                                <Form.Label htmlFor="message" className="mt-4">
-                                    Create Your Post
-                                </Form.Label>
-                                <FormControl
-                                    type="message"
-                                    id="message"
-                                    name="message"
-                                    placeholder="Write Your Post Here"
-                                />
-                            </Form.Group>
-                            <div className="d-grid gap-2">
-                                <Button type="submit" className="btn-large btn-primary mt-4">Submit</Button>
-                            </div>
-                        </Form>
+                        {!successMsg &&
+                            <Form onSubmit={handleSubmit} autoComplete="off">
+                                <Form.Group>
+                                    <Form.Label htmlFor="message" className="mt-4">
+                                        Create Your Post
+                                    </Form.Label>
+                                    <FormControl
+                                        type="message"
+                                        id="message"
+                                        name="message"
+                                        placeholder="Write Your Post Here"
+                                    />
+                                </Form.Group>
+                                <div className="d-grid gap-2">
+                                    <Button type="submit" className="btn-large btn-primary mt-4">Submit</Button>
+                                </div>
+                            </Form>
+                        }
                     </Card>
                 </Col>
             </Row>
