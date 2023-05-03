@@ -51,7 +51,8 @@ const Register = () => {
                 }
 
                 else if (res.status === 401){
-                    setErrorMsg(res.body[0].msg);
+                    const data = await res.json();
+                    setErrorMsg(data.msg);
                 }
 
             }
