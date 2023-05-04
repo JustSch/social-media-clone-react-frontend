@@ -17,10 +17,59 @@ const Profile = () => {
   const [btnHref, setBtnHref] = useState('/users/login');
 
 
+ 
 
   useEffect(() => {
     if (!uid) return;
     const url = `/api/user/${uid}`;
+
+
+    const header_markup = (user, btnText) => {
+      return (
+        <Card>
+          <Card.Body>
+            <h1 className='card-title'>
+              {`${user.name}'s Profile`}
+            </h1>
+            <h6 className="card-subtitle mb-2 text-muted">
+              {`Following: ${user.following.length}  Followers: ${user.followers.length}`}
+              <Button type="button" className="btn-outline float-end" id="follow_btn" onClick={handleClick}>{btnText}</Button>
+            </h6>
+          </Card.Body>
+        </Card>
+      )
+    } 
+
+
+    const handleClick = async (e) => {
+      e.preventDefault();
+      if (btnText === 'Login To Follow User') {
+        router.push(btnHref);
+      } 
+
+      const formData = new FormData();
+      formData.append('username',uid);
+      const data = new URLSearchParams(formData);
+      let res = await fetch(btnHref,{
+        method: 'POST',
+        credentials: 'include',
+        body: data
+      });
+    
+      if (res.status === 200) {
+        if (btnText === 'Follow'){
+          setBtnText('Unfollow');
+          setBtnHref(`/api/user/unfollow/`);
+        }
+        else if (btnText === 'Unfollow'){
+          setBtnText('Follow');
+          setBtnHref(`/api/user/follow/`);
+        }
+        else {
+          router.push(btnHref);
+        }
+      }
+    }
     let fetchingUser = async () => {
       let res = await fetch(url);
       if (res.status === 404) {
@@ -53,11 +102,14 @@ const Profile = () => {
 
       if (res.status === 404) {
         setErrorMsg(data.msg);
-        return;
       }
 
       else {
-        if (data.isFollowing) {
+        if (data.isFollowing === 'own'){
+          setBtnText('Dashboard')
+          setBtnHref('/dashboard')
+        }
+        else if (data.isFollowing) {
           setBtnText('Unfollow');
           setBtnHref(`/api/user/unfollow/`);
         }
@@ -72,45 +124,6 @@ const Profile = () => {
 
   }, [uid, authenticated, btnHref, btnText])
 
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('username',uid);
-    const data = new URLSearchParams(formData);
-    let res = await fetch(btnHref,{
-      method: 'POST',
-      credentials: 'include',
-      body: data
-    });
-  
-    if (res.status === 200) {
-      if (btnText === 'Follow'){
-        setBtnText('Unfollow');
-        setBtnHref(`/api/user/unfollow/`);
-      }
-      else {
-        setBtnText('Follow');
-        setBtnHref(`/api/user/follow/`);
-      }
-    }
-  }
-
-  const header_markup = (user, btnText) => {
-    return (
-      <Card>
-        <Card.Body>
-          <h1 className='card-title'>
-            {`${user.name}'s Profile`}
-          </h1>
-          <h6 className="card-subtitle mb-2 text-muted">
-            {`Following: ${user.following.length}  Followers: ${user.followers.length}`}
-            <Button type="button" className="btn-outline float-end" id="follow_btn" onClick={handleClick}>{btnText}</Button>
-          </h6>
-        </Card.Body>
-      </Card>
-    )
-  }
 
 
   return (
